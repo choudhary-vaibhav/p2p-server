@@ -15,12 +15,9 @@ async function createBorrower(account, wallet){
 
     if(!exists){
         await Borrower.save();
-        return res.status(201).json({
-        message:'Borrower successfully registered!',
-        _id: borrower._id,
-        });
+        return borrower._id;
     }
-    return res.status(403).json({ message:'Borrower Already Exists! '});
+    return null;
 }
 
 async function createLender(account, wallet){
@@ -36,12 +33,9 @@ async function createLender(account, wallet){
 
     if(!exists){
         await Lender.save();
-        return res.status(201).json({
-        message:'Lender successfully registered!',
-        _id: lender._id,
-        });
+        return lender._id;
     }
-    return res.status(403).json({ message:'Lender Already Exists! '});
+    return null;
 }
 
 async function createLoan(amount, dueDate, mortgage, interest, borrower_acc){
@@ -63,13 +57,13 @@ async function createLoan(amount, dueDate, mortgage, interest, borrower_acc){
     return null;
 }
 
-async function approveLoan(loanID, borrower_acc){
+async function approveLoan(loanID, lender_acc){
     const doc = await Loan.updateOne({
         _id: loanID
     },
     {
         $set: {
-            borrower_acc: borrower_acc,
+            lender_acc: lender_acc,
         }
     });
 
@@ -80,9 +74,9 @@ async function approveLoan(loanID, borrower_acc){
     return false;
 }
 
-async function appendLoanBorrower(borrowerID, loanID, amount){
+async function appendLoanBorrower(borrowerAcc, loanID, amount){
     const doc = await Borrower.updateOne({
-        _id: borrowerID
+        account: borrowerAcc,
     },
     {
         $push: {
@@ -100,9 +94,9 @@ async function appendLoanBorrower(borrowerID, loanID, amount){
     return false;    
 }
 
-async function appendLoanLender(lenderID, loanID, amount){
+async function appendLoanLender(lenderAcc, loanID, amount){
     const doc = await Lender.updateOne({
-        _id: lenderID
+        account: lenderAcc,
     },
     {
         $push: {
