@@ -25,12 +25,18 @@ const loanSchema = new Schema({
         required: true,
     },
     'borrower_acc': {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'borrower',
+        type: SchemaTypes.String,
+        required: true,
+        trim: true,
     },
     'lender_acc': {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'lender',
+        type: SchemaTypes.String,
+        trim: true,
+        default: 'N/A',
+    },
+    'is_paid': {
+        type: SchemaTypes.Boolean,
+        default: false,
     }
 });
 
