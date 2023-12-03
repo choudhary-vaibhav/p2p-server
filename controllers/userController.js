@@ -22,7 +22,9 @@ async function createUser(req, res){
             return res.status(404).json({ error: "There is some problem!" });
         }
 
-        return res.status(201).json(result);
+        return res.status(201).json({
+            id:result
+        });
 
     }catch(err){
         return res.status(400).json({ error: err.message });
@@ -69,7 +71,7 @@ async function approveLoan(req, res){
 
         let result;
 
-        const isLoanApproved = await userServices.approveLoan(lender_acc, lender_acc_acc);
+        const isLoanApproved = await userServices.approveLoan(loanID, lender_acc);
         if(isLoanApproved){
             isAppendBorrower = await userServices.appendLoanBorrower(borrower_acc, loanID, amount);
 
@@ -90,9 +92,24 @@ async function approveLoan(req, res){
     }
 }
 
+async function getLoanDataAll(req, res){
+    try{
+        const result = await userServices.getLoanDataAll();
+
+        if(result){
+            return res.status(200).json(result);
+        }
+
+        return res.status(400).json({ error: "There is some problem!" });
+    }catch(err){
+        return res.status(400).json({ error: err.message });
+    }
+}
 
 module.exports = {
     createUser,
     createLoan,
     approveLoan,
+    getLoanDataAll,
+
 }

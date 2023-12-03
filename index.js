@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(cors({origin: '*'}));
 
-// app.use('/',require('./routers/userRouters')); //dynamic routing
+app.use('/',require('./routers/userRouters')); //dynamic routing
 
 const port = process.env.PORT || 5000;
 

@@ -14,7 +14,7 @@ async function createBorrower(account, wallet){
     });
 
     if(!exists){
-        await Borrower.save();
+        await borrower.save();
         return borrower._id;
     }
     return null;
@@ -26,13 +26,13 @@ async function createLender(account, wallet){
         'wallet': wallet
     };
 
-    const lender = new Borrower(obj);
+    const lender = new Lender(obj);
     const exists = await Lender.exists({
         'account': account
     });
 
     if(!exists){
-        await Lender.save();
+        await lender.save();
         return lender._id;
     }
     return null;
@@ -165,6 +165,16 @@ async function plusLoanLender(lenderID, amount){
     return false;    
 }
 
+async function getLoanDataAll(){
+    const doc = await Loan.find({
+        
+    });
+
+    if(doc){
+        return doc;
+    }
+    return null;
+}
 
 
 module.exports = {
@@ -177,4 +187,6 @@ module.exports = {
     payLoan,
     minusLoanBorrower,
     plusLoanLender,
+    getLoanDataAll,
+
 }
