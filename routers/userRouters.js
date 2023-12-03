@@ -7,6 +7,7 @@ const userController = require('../controllers/userController');
 
 userRouter.post('/api/getLoanDataAll', userController.getLoanDataAll);
 userRouter.post('/api/user/create', userController.createUser);
+userRouter.post('/api/user/wallet', userController.getWallet);
 
 // Loan Related APIs
 userRouter.post('/api/loan/create', userController.createLoan);

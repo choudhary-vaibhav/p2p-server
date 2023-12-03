@@ -106,10 +106,37 @@ async function getLoanDataAll(req, res){
     }
 }
 
+async function getWallet(req, res){
+    try{
+        const type = req.body.type ? req.body.type : null;
+        const accNo = req.body.accNo ? req.body.accNo : null;
+
+        if(!type || !accNo){
+            return res.status(404).json({ error: "Missing fields in request body." });
+        }
+
+        if(type == 'borrower'){
+            result = await userServices.getWalletBorrower(accNo);
+        }else{
+            result = await userServices.getWalletLender(accNo);
+        }
+
+        if(result){
+            return res.status(200).json({
+                'wallet': result
+            });
+        }
+
+        return res.status(400).json({ error: "There is some problem!" });
+    }catch(err){
+        return res.status(400).json({ error: err.message });
+    }
+}
+
 module.exports = {
     createUser,
     createLoan,
     approveLoan,
     getLoanDataAll,
-
+    getWallet,
 }

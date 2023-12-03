@@ -176,6 +176,30 @@ async function getLoanDataAll(){
     return null;
 }
 
+async function getWalletBorrower(borrower_acc){
+    const doc = await Borrower.findOne({
+        account: borrower_acc
+    });
+
+    if(doc){
+        return doc.wallet;
+    }
+
+    return null;
+}
+
+async function getWalletLender(lender_acc){
+    const doc = await Lender.findOne({
+        account: lender_acc
+    });
+
+    if(doc){
+        return doc.wallet;
+    }
+
+    return null;
+}
+
 
 module.exports = {
     createBorrower,
@@ -188,5 +212,7 @@ module.exports = {
     minusLoanBorrower,
     plusLoanLender,
     getLoanDataAll,
-
+    getWalletBorrower,
+    getWalletLender,
+    
 }
